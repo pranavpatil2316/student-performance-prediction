@@ -16,6 +16,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 MODELS_DIR = PROJECT_ROOT / "models"
 REPORTS_DIR = PROJECT_ROOT / "results" / "reports"
+RAW_DATA_DIR = PROJECT_ROOT / "data" / "raw"
 
 CLASS_MAPPING = {
     0: "Poor",
@@ -44,21 +45,41 @@ based on scholastic, behavioral, and demographic features.
 It utilizes a machine learning pipeline trained on synthetic student records and supports early academic intervention.
 """)
 
+# Helper to train the model dynamically if missing or version mismatch
+def train_model_on_server():
+    from src.data_generation import generate_synthetic_data
+    from src.models import run_model_pipeline
+    
+    # Ensure directories exist
+    RAW_DATA_DIR.mkdir(parents=True, exist_ok=True)
+    MODELS_DIR.mkdir(parents=True, exist_ok=True)
+    
+    # 1. Generate data
+    generate_synthetic_data(RAW_DATA_DIR / "student_data_raw.csv")
+    # 2. Fit and serialize pipelines & models
+    run_model_pipeline()
+
 # 1. Load the Best Model Pipeline
 @st.cache_resource
 def load_model():
     model_path = MODELS_DIR / "best_student_model.joblib"
+    
     if not model_path.exists():
-        raise FileNotFoundError(f"Model file not found at {model_path}")
-    return joblib.load(model_path)
+        st.info("🔄 Pre-trained model not found. Generating data and training the model on the server...")
+        train_model_on_server()
+        
+    try:
+        return joblib.load(model_path)
+    except Exception as e:
+        # Catch sklearn version mismatches (e.g. AttributeError / _RemainderColsList missing)
+        st.warning(f"⚠️ Model version mismatch detected ({e}). Rebuilding the model pipeline on the server...")
+        train_model_on_server()
+        return joblib.load(model_path)
 
 try:
-    import src.preprocessing
-    st.write("Debug - src.preprocessing attributes:", dir(src.preprocessing))
-    st.write("Debug - src.preprocessing file path:", src.preprocessing.__file__)
     model = load_model()
 except Exception as e:
-    st.error(f"Error loading model: {e}")
+    st.error(f"❌ Failed to load or compile model pipeline on the server: {e}")
     st.exception(e)
     model = None
 
