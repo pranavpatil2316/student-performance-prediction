@@ -65,15 +65,16 @@ def load_model():
     model_path = MODELS_DIR / "best_student_model.joblib"
     
     if not model_path.exists():
-        st.info("🔄 Pre-trained model not found. Generating data and training the model on the server...")
-        train_model_on_server()
+        with st.spinner("🔄 Pre-trained model not found. Generating data and training the model on the server..."):
+            train_model_on_server()
         
     try:
         return joblib.load(model_path)
     except Exception as e:
         # Catch sklearn version mismatches (e.g. AttributeError / _RemainderColsList missing)
-        st.warning(f"⚠️ Model version mismatch detected ({e}). Rebuilding the model pipeline on the server...")
-        train_model_on_server()
+        # We use a spinner so it disappears from the page once training is done
+        with st.spinner("🔄 Model version mismatch detected. Rebuilding model pipeline on the server..."):
+            train_model_on_server()
         return joblib.load(model_path)
 
 try:
