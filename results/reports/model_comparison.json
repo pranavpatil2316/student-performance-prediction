@@ -1,0 +1,63 @@
+{
+    "LogisticRegression": {
+        "accuracy": 0.62,
+        "precision": 0.5854036792568146,
+        "recall": 0.4828203056126947,
+        "f1_macro": 0.5091411281103533,
+        "roc_auc": 0.8176805265217533,
+        "best_params": {
+            "classifier__C": 1.0,
+            "classifier__solver": "lbfgs"
+        },
+        "cv_macro_f1": 0.5218125576203053
+    },
+    "DecisionTree": {
+        "accuracy": 0.505,
+        "precision": 0.4238396385511843,
+        "recall": 0.38069228132040356,
+        "f1_macro": 0.3905017700235568,
+        "roc_auc": 0.7038478687846658,
+        "best_params": {
+            "classifier__max_depth": 8,
+            "classifier__min_samples_split": 10
+        },
+        "cv_macro_f1": 0.4248493353592554
+    },
+    "RandomForest": {
+        "accuracy": 0.585,
+        "precision": 0.47565045248868776,
+        "recall": 0.40484498971495736,
+        "f1_macro": 0.4108592288303454,
+        "roc_auc": 0.8076146794508428,
+        "best_params": {
+            "classifier__max_depth": 8,
+            "classifier__min_samples_split": 2,
+            "classifier__n_estimators": 100
+        },
+        "cv_macro_f1": 0.4852776579167905
+    },
+    "SVM": {
+        "accuracy": 0.57,
+        "precision": 0.48426544860368387,
+        "recall": 0.44741527083945537,
+        "f1_macro": 0.4599222607416745,
+        "roc_auc": 0.7853968476864184,
+        "best_params": {
+            "classifier__C": 10.0,
+            "classifier__gamma": "scale"
+        },
+        "cv_macro_f1": 0.4980474608291475
+    },
+    "KNN": {
+        "accuracy": 0.53,
+        "precision": 0.4583791208791209,
+        "recall": 0.3631587324909394,
+        "f1_macro": 0.3660625866508219,
+        "roc_auc": 0.683400477483795,
+        "best_params": {
+            "classifier__n_neighbors": 5,
+            "classifier__weights": "uniform"
+        },
+        "cv_macro_f1": 0.4322903465603565
+    }
+}
