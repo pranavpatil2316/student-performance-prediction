@@ -24,8 +24,6 @@ coverage.xml
 
 # Data and Models (reproducible through code)
 data/**/*.csv
-models/*.joblib
-models/*.pkl
 *.egg-info/
 
 # IDEs
