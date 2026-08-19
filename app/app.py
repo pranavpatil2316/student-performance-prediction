@@ -42,11 +42,14 @@ It utilizes a machine learning pipeline trained on synthetic student records and
 @st.cache_resource
 def load_model():
     model_path = MODELS_DIR / "best_student_model.joblib"
-    if model_path.exists():
-        return joblib.load(model_path)
-    return None
+    if not model_path.exists():
+        raise FileNotFoundError(f"Model file not found at {model_path}")
+    return joblib.load(model_path)
 
-model = load_model()
+try:
+    model = load_model()
+except FileNotFoundError:
+    model = None
 
 if model is None:
     st.error("⚠️ Best model not found! Please run the training pipeline first (`python src/models.py`).")
