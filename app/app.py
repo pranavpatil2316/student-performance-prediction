@@ -53,8 +53,13 @@ def load_model():
     return joblib.load(model_path)
 
 try:
+    import src.preprocessing
+    st.write("Debug - src.preprocessing attributes:", dir(src.preprocessing))
+    st.write("Debug - src.preprocessing file path:", src.preprocessing.__file__)
     model = load_model()
-except FileNotFoundError:
+except Exception as e:
+    st.error(f"Error loading model: {e}")
+    st.exception(e)
     model = None
 
 if model is None:
