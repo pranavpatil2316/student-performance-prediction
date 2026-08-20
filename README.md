@@ -78,11 +78,9 @@ The following 4 composite features are engineered in `src/features.py` using dom
 *   **Study Intensity**: Combined measure of study duration and achievement efficacy.
     $$\text{Study Intensity} = \frac{\text{Daily Study Hours} \times \text{Assignment Score}}{100.0}$$
 *   **Attendance Category**: Discrete categorical indicator representing risk.
-    $$\text{Attendance Category} = \begin{cases} 
-      \text{"Low"} & \text{if Attendance Percentage } < 75.0\% \\
-      \text{"Moderate"} & \text{if } 75.0\% \le \text{Attendance Percentage } \le 90.0\% \\
-      \text{"High"} & \text{if Attendance Percentage } > 90.0\% 
-   \end{cases}$$
+    Attendance Percentage < 75.0%  →  "Low"
+    75.0% ≤ Attendance Percentage ≤ 90.0%  →  "Moderate"
+    Attendance Percentage > 90.0%  →  "High"
 *   **Academic Consistency**: Deviation metric highlighting performance stability. Higher values imply more consistent outputs.
     $$\text{Academic Consistency} = 100.0 - |\text{Previous Semester Marks} - \text{Assignment Score}|$$
 *   **Engagement Score**: Weighted behavior score representing overall participation (bounded between 0 and 100).
